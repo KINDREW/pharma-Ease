@@ -1,0 +1,49 @@
+# PharmaEase
+
+## Features
+
+- **Product Management**: Add, update, and delete products with ease.
+- **Order Processing**: Place orders, calculate total prices, and update order statuses.
+- **User Authentication**: Register new users, handle login/logout, and maintain user-specific order history.
+- **Order History**: Allow users to view their order history, providing transparency and convenience.
+
+## Getting Started
+
+To get started with PharmaEase, follow these steps:
+
+1. Clone the repository: `git clone https://github.com/Kindrew/pharma-Ease.git>`
+2. Install dependencies: `npm install`
+3. Set up environment variables:
+
+Create a .env file in the root directory of the project and provide values for the following variables:
+JWT_SECRET_KEY=your_jwt_secret_key
+MONGODB_URI=your_mongodb_uri
+
+4. Run the server: `node server.js`
+
+## Usage
+
+- **Product Management**:
+  - Add a new product: `POST /products`
+  - Retrieve all products: `GET /products`
+- **Order Processing**:
+  - Place an order: `POST /orders`
+  - Retrieve order history: `GET /orders/:userId`
+- **User Authentication**:
+  - Register a new user: `POST /register`
+  - Login: `POST /login`
+
+## Dependencies
+
+- [Express](https://expressjs.com/): Fast, unopinionated, minimalist web framework for Node.js.
+- [Mongoose](https://mongoosejs.com/): Elegant MongoDB object modeling for Node.js.
+- [Body-parser](https://www.npmjs.com/package/body-parser): Node.js body parsing middleware.
+- [Cors](https://www.npmjs.com/package/cors): CORS middleware for Express.js.
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit a pull request.
+
+## Acknowledgements
+
+- This project was inspired by the need for a modern and efficient solution for managing online pharmacy shops.
