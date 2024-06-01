@@ -1,0 +1,55 @@
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+const redisClient = require("../redisClient");
+
+const USER_CACHE_PREFIX = "user_";
+
+async function register(req, res) {
+  const { username, email, password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const newUser = new User({ username, email, password: hashedPassword });
+  try {
+    await newUser.save();
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+}
+
+async function login(req, res) {
+  const { email, password } = req.body;
+
+  // Check cache first
+  const cachedUser = await redisClient.getAsync(`${USER_CACHE_PREFIX}${email}`);
+  let user;
+  if (cachedUser) {
+    console.log("Fetching user from cache");
+    user = JSON.parse(cachedUser);
+  } else {
+    console.log("Fetching user from database");
+    user = await User.findOne({ email });
+    if (user) {
+      await redisClient.setAsync(
+        `${USER_CACHE_PREFIX}${email}`,
+        JSON.stringify(user),
+        "EX",
+        3600
+      ); // Cache for 1 hour
+    }
+  }
+
+  if (!user) {
+    return res.status(401).json({ error: "Invalid email or password" });
+  }
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword) {
+    return res.status(401).json({ error: "Invalid email or password" });
+  }
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
+  res.json({ token });
+}
+
+module.exports = { register, login };

@@ -1,9 +1,14 @@
+const express = require("express");
 const mongoose = require("mongoose");
-const app = require("./middleware");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+require("dotenv").config();
+
+const app = express();
+
 const orderRouter = require("./routes/orderRoutes");
 const productRouter = require("./routes/productRoutes");
 const userRouter = require("./routes/UserRoutes");
-require("dotenv").config();
 
 // Connect to MongoDB
 mongoose.connect(process.env.MongoURI, {
@@ -12,6 +17,9 @@ mongoose.connect(process.env.MongoURI, {
 });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+app.use(bodyParser.json());
+app.use(cors());
 
 // Routes
 app.use("/orders", orderRouter);

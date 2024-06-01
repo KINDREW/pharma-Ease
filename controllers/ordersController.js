@@ -1,8 +1,21 @@
 const { Order } = require("../models/Order");
 
+const { Order } = require("../models/Order");
+const User = require("../models/User"); // Import the User model
+
 async function placeOrder(req, res) {
-  const { userId, products, shippingAddress } = req.body;
+  const { email, products, shippingAddress } = req.body;
   try {
+    // Find the user by email to get the userId
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Extract userId from the found user
+    const userId = user._id;
+
+    // Create the order
     const order = new Order({ userId, products, shippingAddress });
     const totalPrice = products.reduce(
       (acc, product) => acc + product.price,
