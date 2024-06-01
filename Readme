@@ -1,3 +1,7 @@
+Sure, here's an updated README.md file for PharmaEase that includes information about caching using Redis:
+
+---
+
 # PharmaEase
 
 ## Features
@@ -6,6 +10,7 @@
 - **Order Processing**: Place orders, calculate total prices, and update order statuses.
 - **User Authentication**: Register new users, handle login/logout, and maintain user-specific order history.
 - **Order History**: Allow users to view their order history, providing transparency and convenience.
+- **Caching with Redis**: Improve performance by caching frequently accessed data using Redis.
 
 ## Getting Started
 
@@ -18,6 +23,8 @@ To get started with PharmaEase, follow these steps:
 Create a .env file in the root directory of the project and provide values for the following variables:
 JWT_SECRET_KEY=your_jwt_secret_key
 MONGODB_URI=your_mongodb_uri
+REDIS_HOST=your_redis_host
+REDIS_PORT=your_redis_port
 
 4. Run the server: `node server.js`
 
@@ -39,6 +46,7 @@ MONGODB_URI=your_mongodb_uri
 - [Mongoose](https://mongoosejs.com/): Elegant MongoDB object modeling for Node.js.
 - [Body-parser](https://www.npmjs.com/package/body-parser): Node.js body parsing middleware.
 - [Cors](https://www.npmjs.com/package/cors): CORS middleware for Express.js.
+- [Redis](https://redis.io/): In-memory data structure store used for caching frequently accessed data.
 
 ## Contributing
 
